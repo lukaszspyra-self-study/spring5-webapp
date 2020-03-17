@@ -5,19 +5,24 @@ import org.springframework.stereotype.Component;
 
 import guru.springframework.spring5webapp.domain.Author;
 import guru.springframework.spring5webapp.domain.Book;
+import guru.springframework.spring5webapp.domain.Publisher;
 import guru.springframework.spring5webapp.repositories.AuthorRepository;
 import guru.springframework.spring5webapp.repositories.BookRepository;
+import guru.springframework.spring5webapp.repositories.PublisherRepository;
 
 @Component
 public class BootStrapData implements CommandLineRunner {
 
 	private final AuthorRepository authorRepository;
 	private final BookRepository bookRepository;
+	private final PublisherRepository publisherRepository;
 
-	public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+	public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+			PublisherRepository publisherRepository) {
 		super();
 		this.authorRepository = authorRepository;
 		this.bookRepository = bookRepository;
+		this.publisherRepository = publisherRepository;
 	}
 
 	@Override
@@ -39,10 +44,18 @@ public class BootStrapData implements CommandLineRunner {
 
 		authorRepository.save(author2);
 		bookRepository.save(book2);
+		
+		Publisher publisher1 = new Publisher();
+		publisher1.setNameString("Martin Fowler");
+		publisher1.setAddressLine1("High Street 45");
+		publisher1.setCity("LA");
+		publisher1.setZipString("80-999");
+		publisherRepository.save(publisher1);
 
 		System.out.println("Started in bootstrap");
-		System.out.println("Number of books" + bookRepository.count());
-		System.out.println("Number of authors" + authorRepository.count());
+		System.out.println("Number of books " + bookRepository.count());
+		System.out.println("Number of authors " + authorRepository.count());
+		System.out.println("Number of publishers " + publisherRepository.count());
 	}
 
 }
